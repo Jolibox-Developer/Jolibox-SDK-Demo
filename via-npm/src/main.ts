@@ -1,12 +1,8 @@
 import { JoliboxSDK } from "@jolibox/sdk";
 
-const jolibox = new JoliboxSDK({
-  loaderConfig: {
-    testMode: true,
-  },
-});
+const jolibox = new JoliboxSDK();
 const { ads } = jolibox;
-ads.init({ testMode: true });
+ads.init();
 
 // 在需要预加载广告的地方（例如在游戏加载屏幕中）
 ads.adConfig({

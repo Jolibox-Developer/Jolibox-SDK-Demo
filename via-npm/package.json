@@ -13,6 +13,6 @@
     "vite": "^5.4.9"
   },
   "dependencies": {
-    "@jolibox/sdk": "^1.0.1"
+    "@jolibox/sdk": "^1.0.3"
   }
 }
