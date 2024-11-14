@@ -7,7 +7,7 @@ ads.init();
 // 在需要预加载广告的地方（例如在游戏加载屏幕中）
 ads.adConfig({
   preloadAdBreaks: "on",
-  sound: "on",
+  sound: "off",
   onReady: () => {
     console.log("onReady");
   },
