@@ -1,7 +1,17 @@
 import { JoliboxSDK } from "@jolibox/sdk";
 
 const jolibox = new JoliboxSDK();
-const { ads } = jolibox;
+const { ads, runtime } = jolibox;
+
+// 当你的游戏正在加载时，调用notifyLoadProgress来通知加载进度
+runtime.notifyLoadProgress(30);
+runtime.notifyLoadProgress(60);
+runtime.notifyLoadProgress(90);
+
+// 当你的游戏加载完成时，调用loadFinished来通知加载完成
+runtime.loadFinished();
+
+// 在游戏中初始化广告
 ads.init();
 
 // 在需要预加载广告的地方（例如在游戏加载屏幕中）
