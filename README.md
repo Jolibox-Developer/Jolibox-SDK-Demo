@@ -2,7 +2,7 @@
 
 This is a demo project for Jolibox JS SDK.
 
-Once you run the project, you are expected to provide a `gameId` and `testMode` query parameters to the URL.
+Once you run the project, you are expected to provide the following query parameters in the URL:
 
 - `gameId`: A required string value to indicate the game ID you want to play. Use G31903729079412278950430008822 for testing.
 
@@ -14,7 +14,7 @@ Once you run the project, you are expected to provide a `gameId` and `testMode` 
 
 这是一个 Jolibox JS SDK 的演示项目。
 
-运行项目后，您需要在 URL 中提供 `gameId` 和 `testMode` 查询参数。
+运行项目后，您需要在 URL 中提供以下查询参数：
 
 - `gameId`：测试时必选。您想玩的游戏 ID。测试时使用 G31903729079412278950430008822。
 
