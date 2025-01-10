@@ -27,6 +27,10 @@ Once you run the project, you are expected to provide the following query parame
 
 - Via CDN
 
+  We strongly recommend using the CDN to integrate our SDK as it can support the latest features and bug fixes.
+
+  我们强烈建议使用 CDN 来集成我们的 SDK，因为它可以支持最新的功能和错误修复。
+
   ```bash
   cd via-cdn
   npx serve .
