@@ -58,6 +58,14 @@ if (adRewardButton) {
   });
 }
 
+// 加载横幅广告
+const adBanner = document.getElementById("ad-banner")!;
+ads.adUnit({
+  el: adBanner,
+  fullWidthResponsive: "true",
+  style: "display: block; max-width: 560px; min-width: 100px; height: 50px;",
+});
+
 /**
  * ==================== 云端存储API ====================
  */
