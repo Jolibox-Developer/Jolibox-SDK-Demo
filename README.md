@@ -48,6 +48,11 @@ Once you run the project, you are expected to provide the following query parame
   # visit http://localhost:5173?testAdsMode=true&gameId=G31903729079412278950430008822&joliboxEnv=staging
   ```
 
+## API Documentation
+
+- [Jolibox JS SDK](https://sdk-docs.jolibox.com/)
+- [Jolibox JS SDK (中文)](https://sdk-docs.jolibox.com/zh_cn/)
+
 ## Testing related
 
 - [Test Cloud Storage API](./docs/test-storage.md)
