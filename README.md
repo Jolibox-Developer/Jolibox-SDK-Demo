@@ -38,16 +38,6 @@ Once you run the project, you are expected to provide the following query parame
   # visit http://localhost:3000?testAdsMode=true&gameId=G31903729079412278950430008822&joliboxEnv=staging
   ```
 
-- Via NPM
-
-  ```bash
-  cd via-cdn
-  npm install
-  npm run dev
-
-  # visit http://localhost:5173?testAdsMode=true&gameId=G31903729079412278950430008822&joliboxEnv=staging
-  ```
-
 ## API Documentation
 
 - [Jolibox JS SDK](https://sdk-docs.jolibox.com/)
