@@ -1,8 +1,9 @@
 const jolibox = new JoliboxSDK();
-const { ads, runtime, storage } = jolibox;
+const { ads, runtime, storage, task } = jolibox;
 
 /**
  * ==================== 运行时API ====================
+ * 下列API为必选接入
  */
 
 // 当你的游戏正在加载时，调用notifyLoadProgress来通知加载进度
@@ -66,6 +67,7 @@ ads.adUnit({
 
 /**
  * ==================== 云端存储API ====================
+ * 下列API推荐接入
  */
 
 const setItemButton = document.getElementById("set-item");
@@ -105,5 +107,113 @@ if (clearButton) {
     const result = await storage.clear();
     // 如果云端清空成功，result.code将返回"SUCCESS"，如果失败，将返回其他错误码。无论成功或失败，都会清空本地IndexedDB中的数据
     console.log(result);
+  });
+}
+
+/**
+ * ==================== 任务API ====================
+ * 下列API为可选接入
+ */
+
+// 用户等级事件
+const onHistoryUserLevelButton = document.getElementById(
+  "on-history-user-level"
+);
+if (onHistoryUserLevelButton) {
+  onHistoryUserLevelButton.addEventListener("click", async () => {
+    const level = 5;
+    const result = await task.onHistoryUserLevel(level);
+    console.log(result);
+  });
+}
+
+// 用户积分事件
+const onHistoryUserScoreButton = document.getElementById(
+  "on-history-user-score"
+);
+if (onHistoryUserScoreButton) {
+  onHistoryUserScoreButton.addEventListener("click", async () => {
+    const score = 100;
+    const result = await task.onHistoryUserScore(score);
+    console.log(result);
+  });
+}
+
+// 关卡完成事件
+const levelFinishedButton = document.getElementById("level-finished");
+if (levelFinishedButton) {
+  levelFinishedButton.addEventListener("click", async () => {
+    const levelId = "1";
+    const result = true;
+    const duration = 3000; // 模拟耗时3秒
+    const response = await task.onLevelFinished(levelId, result, duration);
+    console.log("Level Finished Response:", response);
+  });
+}
+
+// 任务完成事件
+const taskFinishedButton = document.getElementById("task-finished");
+if (taskFinishedButton) {
+  taskFinishedButton.addEventListener("click", async () => {
+    const taskId = "main-task-1";
+    const duration = 2500; // 模拟耗时2.5秒
+    const response = await task.onTaskFinished(taskId, duration);
+    console.log("Task Finished Response:", response);
+  });
+}
+
+// 任务事件
+const taskEventButton = document.getElementById("task-event");
+if (taskEventButton) {
+  taskEventButton.addEventListener("click", async () => {
+    const taskId = "main-task-1";
+    const params = {
+      tools: [
+        {
+          id: "1",
+          name: "Tool A",
+          count: 5,
+          description: "Basic tool for gameplay",
+          price: {
+            amount: 9.99,
+            unit: "$",
+          },
+        },
+      ],
+      awards: [
+        {
+          id: "1",
+          name: "Bronze Medal",
+        },
+      ],
+    };
+    const response = await task.onTaskEvent(taskId, params);
+    console.log("Task Event Response:", response);
+  });
+}
+
+// 任务支付事件
+const taskPaymentButton = document.getElementById("task-payment");
+if (taskPaymentButton) {
+  taskPaymentButton.addEventListener("click", async () => {
+    const taskId = "main-task-1";
+    const params = {
+      id: "1",
+      amount: 9.99,
+      unit: "$",
+    };
+    const response = await task.onTaskPayment(taskId, params);
+    console.log("Task Payment Response:", response);
+  });
+}
+
+// 等级升级事件
+const levelUpgradeButton = document.getElementById("level-upgrade");
+if (levelUpgradeButton) {
+  levelUpgradeButton.addEventListener("click", async () => {
+    const levelId = "2";
+    const name = "Level 2 Unlocked";
+    const response = await task.onLevelUpgrade(levelId, name);
+    console.log("Level Upgrade Response:", response);
   });
 }
