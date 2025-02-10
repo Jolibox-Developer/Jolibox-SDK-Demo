@@ -192,21 +192,6 @@ if (taskEventButton) {
   });
 }
 
-// 任务支付事件
-const taskPaymentButton = document.getElementById("task-payment");
-if (taskPaymentButton) {
-  taskPaymentButton.addEventListener("click", async () => {
-    const taskId = "main-task-1";
-    const params = {
-      id: "1",
-      amount: 9.99,
-      unit: "$",
-    };
-    const response = await task.onTaskPayment(taskId, params);
-    console.log("Task Payment Response:", response);
-  });
-}
-
 // 等级升级事件
 const levelUpgradeButton = document.getElementById("level-upgrade");
 if (levelUpgradeButton) {
