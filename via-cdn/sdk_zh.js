@@ -2,26 +2,26 @@ const jolibox = new JoliboxSDK();
 const { ads, runtime, storage, task } = jolibox;
 
 /**
- * ==================== Runtime API ====================
+ * ==================== 运行时API ====================
+ * 下列API为必选接入
  */
 
-// OPTIONAL. When your game is loading, call notifyLoadProgress to report the loading progress
-// The progress value should be between 0 and 100.
+// 当你的游戏正在加载时，调用notifyLoadProgress来通知加载进度
 runtime.notifyLoadProgress(30);
 runtime.notifyLoadProgress(60);
 runtime.notifyLoadProgress(90);
 
-// REQUIRED. When your game is fully loaded, call loadFinished to notify the completion of loading.
+// 当你的游戏加载完成时，调用loadFinished来通知加载完成
 runtime.loadFinished();
 
 /**
- * ==================== Ads API ====================
+ * ==================== 广告API ====================
  */
 
-// REQUIRED. Initialize ads SDK, must be called before any other ads API.
+// 在游戏中初始化广告
 ads.init();
 
-// REQUIRED. Configure the ads settings and preload the ads (e.g., in the game loading screen)
+// 在需要预加载广告的地方（例如在游戏加载屏幕中）
 ads.adConfig({
   preloadAdBreaks: "on",
   sound: "off",
@@ -30,40 +30,40 @@ ads.adConfig({
   },
 });
 
-// OPTIONAL. When the player clicks on the reward button, call adBreak to play a reward ad.
+// 在需要弹出奖励广告的地方
 const adRewardButton = document.getElementById("ad-reward");
 if (adRewardButton) {
   adRewardButton.addEventListener("click", () => {
-    // Pop up the reward ad
+    // 在需要弹出奖励广告的地方
     ads.adBreak({
       type: "reward",
       beforeReward(showAdFn) {
-        // Do something before the ad is shown. e.g. pause game
+        // 处理广告播放前的逻辑，例如暂停游戏
         console.log("beforeReward");
         showAdFn();
       },
       adDismissed: () => {
-        // You are informed that the ad has been closed by the user and did not meet the reward conditions
+        // 被告知广告已被用户关闭，并且没有达到奖励条件
         console.log("adDismissed");
       },
       adViewed: () => {
-        // You are informed that the ad has been viewed and met the reward conditions
+        // 被告知广告已被用户观看，并且达到奖励条件
         console.log("adViewed");
       },
       adBreakDone: (placementInfo) => {
-        // Process remaining logic, whether to issue a reward and restore game state.
+        // 处理剩余逻辑，是否发放奖励，并恢复游戏状态
         console.log("adBreakDone", placementInfo);
         if (placementInfo.breakStatus === "viewed") {
-          // Issue reward and restore game state
+          // 发放奖励并恢复游戏状态
         } else {
-          // Restore game state but do not issue a reward
+          // 恢复游戏状态但不发放奖励
         }
       },
     });
   });
 }
 
-// OPTIONAL. When you want to show an interstitial ad
+// 在需要弹出插屏广告的地方
 const adInterstitial = document.getElementById("ad-interstitial");
 if (adInterstitial) {
   adInterstitial.addEventListener("click", () => {
@@ -76,7 +76,7 @@ if (adInterstitial) {
   });
 }
 
-// OPTIONAL. When you want to show a banner ad
+// 加载横幅广告
 const adBanner = document.getElementById("ad-banner");
 ads.adUnit({
   el: adBanner,
@@ -85,58 +85,56 @@ ads.adUnit({
 });
 
 /**
- * ==================== Cloud Storage API ====================
+ * ==================== 云端存储API ====================
+ * 下列API推荐接入
  */
 
-// OPTIONAL. When you want to set an item in the cloud storage
 const setItemButton = document.getElementById("set-item");
 if (setItemButton) {
   setItemButton.addEventListener("click", async () => {
+    // 在需要存储数据的地方
     const result = await storage.setItem("score", 100);
-    // If setting an item in the cloud storage is successful, result.code will return "SUCCESS".
-    // If it fails, it will return other error codes. Regardless of success or failure, it will be stored in the local IndexedDB.
+    // 如果云端存储成功，result.code将返回"SUCCESS"，如果失败，将返回其他错误码。无论成功或失败，都会存储到本地IndexedDB中
     console.log(result);
   });
 }
 
-// OPTIONAL. When you want to get an item from the cloud storage
 const getItemButton = document.getElementById("get-item");
 if (getItemButton) {
   getItemButton.addEventListener("click", async () => {
+    // 在需要获取数据的地方
     const result = await storage.getItem("score");
-    // If getting the item from the cloud storage is successful, result.code will return "SUCCESS".
-    // If it fails, it will return other error codes, and it will fallback to the local IndexedDB.
+    // 如果云端获取数据成功，result.code将返回"SUCCESS"，如果失败，将返回其他错误码，并且获取方式将会fallback到本地IndexedDB
     console.log(result);
   });
 }
 
-// OPTIONAL. When you want to remove an item from the cloud storage
 const removeItemButton = document.getElementById("remove-item");
 if (removeItemButton) {
   removeItemButton.addEventListener("click", async () => {
+    // 在需要删除数据的地方
     const result = await storage.removeItem("score");
-    // If the item is removed from the cloud storage successfully, result.code will return "SUCCESS". If it fails, it will return other error codes.
-    // Regardless of success or failure, it will be deleted from the local IndexedDB.
+    // 如果云端删除成功，result.code将返回"SUCCESS"，如果失败，将返回其他错误码。无论成功或失败，都会删除本地IndexedDB中的数据
     console.log(result);
   });
 }
 
-// OPTIONAL. When you want to clear all items from the cloud storage
 const clearButton = document.getElementById("clear");
 if (clearButton) {
   clearButton.addEventListener("click", async () => {
+    // 在需要清空数据的地方
     const result = await storage.clear();
-    // If the cloud storage is cleared successfully, result.code will return "SUCCESS". If it fails, it will return other error codes.
-    // Regardless of success or failure, all data in the local IndexedDB will be cleared.
+    // 如果云端清空成功，result.code将返回"SUCCESS"，如果失败，将返回其他错误码。无论成功或失败，都会清空本地IndexedDB中的数据
     console.log(result);
   });
 }
 
 /**
- * ==================== Task API ====================
+ * ==================== 任务API ====================
+ * 下列API为可选接入
  */
 
-// OPTIONAL. Emit a level/checkpoint finished event to the server
+// 关卡完成事件
 const levelFinishedButton = document.getElementById("level-finished");
 if (levelFinishedButton) {
   levelFinishedButton.addEventListener("click", async () => {
@@ -148,18 +146,18 @@ if (levelFinishedButton) {
   });
 }
 
-// OPTIONAL. Emit a task finished event to the server
+// 任务完成事件
 const taskFinishedButton = document.getElementById("task-finished");
 if (taskFinishedButton) {
   taskFinishedButton.addEventListener("click", async () => {
     const taskId = "main-task-1";
-    const duration = 2500; // simulate duration in seconds
+    const duration = 2500; // 模拟耗时2.5秒
     const response = await task.onTaskFinished(taskId, duration);
     console.log("Task Finished Response:", response);
   });
 }
 
-// OPTIONAL. Emit a task event to the server, can be used for any custom event related to a task.
+// 任务事件
 const taskEventButton = document.getElementById("task-event");
 if (taskEventButton) {
   taskEventButton.addEventListener("click", async () => {
@@ -189,7 +187,7 @@ if (taskEventButton) {
   });
 }
 
-// OPTIONAL. Emit a player level upgrade event to the server
+// 等级升级事件
 const levelUpgradeButton = document.getElementById("level-upgrade");
 if (levelUpgradeButton) {
   levelUpgradeButton.addEventListener("click", async () => {
