@@ -76,14 +76,6 @@ if (adInterstitial) {
   });
 }
 
-// OPTIONAL. When you want to show a banner ad
-const adBanner = document.getElementById("ad-banner");
-ads.adUnit({
-  el: adBanner,
-  fullWidthResponsive: "true",
-  style: "display: block; max-width: 560px; min-width: 100px; height: 50px;",
-});
-
 /**
  * ==================== Cloud Storage API ====================
  */
