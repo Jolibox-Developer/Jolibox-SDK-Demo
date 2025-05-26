@@ -26,6 +26,8 @@ ads.adConfig({
   preloadAdBreaks: "on",
   sound: "off",
   onReady: () => {
+    // 你不应该依赖此回调来确定广告是否准备就绪。
+    // 通常，如果ads实例存在，则表示 adBreak 的调用已准备就绪。
     console.log("onReady");
   },
 });

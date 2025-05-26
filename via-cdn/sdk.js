@@ -26,6 +26,8 @@ ads.adConfig({
   preloadAdBreaks: "on",
   sound: "off",
   onReady: () => {
+    // You should not rely on this callback to determine whether the ad is ready to play.
+    // Normally, if ads instance exists, it means that you are able to call adBreak to play the ad.
     console.log("onReady");
   },
 });
