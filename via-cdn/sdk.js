@@ -1,5 +1,5 @@
 const jolibox = new JoliboxSDK();
-const { ads, runtime, storage, task } = jolibox;
+const { ads, runtime, task } = jolibox;
 
 /**
  * ==================== Runtime API ====================
@@ -79,117 +79,68 @@ if (adInterstitial) {
 }
 
 /**
- * ==================== Cloud Storage API ====================
- */
-
-// OPTIONAL. When you want to set an item in the cloud storage
-const setItemButton = document.getElementById("set-item");
-if (setItemButton) {
-  setItemButton.addEventListener("click", async () => {
-    const result = await storage.setItem("score", 100);
-    // If setting an item in the cloud storage is successful, result.code will return "SUCCESS".
-    // If it fails, it will return other error codes. Regardless of success or failure, it will be stored in the local IndexedDB.
-    console.log(result);
-  });
-}
-
-// OPTIONAL. When you want to get an item from the cloud storage
-const getItemButton = document.getElementById("get-item");
-if (getItemButton) {
-  getItemButton.addEventListener("click", async () => {
-    const result = await storage.getItem("score");
-    // If getting the item from the cloud storage is successful, result.code will return "SUCCESS".
-    // If it fails, it will return other error codes, and it will fallback to the local IndexedDB.
-    console.log(result);
-  });
-}
-
-// OPTIONAL. When you want to remove an item from the cloud storage
-const removeItemButton = document.getElementById("remove-item");
-if (removeItemButton) {
-  removeItemButton.addEventListener("click", async () => {
-    const result = await storage.removeItem("score");
-    // If the item is removed from the cloud storage successfully, result.code will return "SUCCESS". If it fails, it will return other error codes.
-    // Regardless of success or failure, it will be deleted from the local IndexedDB.
-    console.log(result);
-  });
-}
-
-// OPTIONAL. When you want to clear all items from the cloud storage
-const clearButton = document.getElementById("clear");
-if (clearButton) {
-  clearButton.addEventListener("click", async () => {
-    const result = await storage.clear();
-    // If the cloud storage is cleared successfully, result.code will return "SUCCESS". If it fails, it will return other error codes.
-    // Regardless of success or failure, all data in the local IndexedDB will be cleared.
-    console.log(result);
-  });
-}
-
-/**
  * ==================== Task API ====================
+ *
+ * These APIs are optional to integrate but we STRONGLY recommend you to integrate them.
+ * The task API is designed to help us track the player's progress in your game so that we can provide you with better rewards.
  */
 
-// OPTIONAL. Emit a level/checkpoint finished event to the server
+// Emit a level/checkpoint finished event to the server. Eg: user passes a level or a stage
+//
+// params: Required. object.
+// params.levelId: Required. string or number. The levelId is a unique identifier for the level.
+// params.duration: Optional. number. The duration of the level in milliseconds.
+// params.rating: Optional. number. The rating of the level.
+// params.score: Optional. number. The score of the level.
 const levelFinishedButton = document.getElementById("level-finished");
 if (levelFinishedButton) {
   levelFinishedButton.addEventListener("click", async () => {
-    const levelId = "1";
-    const result = true;
-    const duration = 3000; // 模拟耗时3秒
-    const response = await task.onLevelFinished(levelId, result, duration);
+    const levelId = 1; // simulate level 1
+    const score = 100; // simulate 100 score
+    const duration = 3000; // simulate 3 seconds
+    const rating = 5; // simulate 5 stars rating
+    const response = await task.onLevelFinished({
+      levelId,
+      duration,
+      rating,
+      score,
+    });
     console.log("Level Finished Response:", response);
   });
 }
 
-// OPTIONAL. Emit a task finished event to the server
-const taskFinishedButton = document.getElementById("task-finished");
-if (taskFinishedButton) {
-  taskFinishedButton.addEventListener("click", async () => {
-    const taskId = "main-task-1";
-    const duration = 2500; // simulate duration in seconds
-    const response = await task.onTaskFinished(taskId, duration);
-    console.log("Task Finished Response:", response);
+// Emit a game play ended event to the server. Eg: user win/die or game over
+//
+// params: Required. object.
+// params.score: Required. number. The score of the game.
+// params.duration: Optional. number. The duration of the game in milliseconds.
+// params.rating: Optional. number. The rating of the game.
+const gamePlayEndedButton = document.getElementById("game-play-ended");
+if (gamePlayEndedButton) {
+  gamePlayEndedButton.addEventListener("click", async () => {
+    const score = 100;
+    const duration = 3000; // simulate 3 seconds
+    const rating = 5;
+    const response = await task.onGamePlayEnded({
+      score,
+      duration,
+      rating,
+    });
+    console.log("Game Ended Response:", response);
   });
 }
 
-// OPTIONAL. Emit a task event to the server, can be used for any custom event related to a task.
-const taskEventButton = document.getElementById("task-event");
-if (taskEventButton) {
-  taskEventButton.addEventListener("click", async () => {
-    const taskId = "main-task-1";
-    const params = {
-      tools: [
-        {
-          id: "1",
-          name: "Tool A",
-          count: 5,
-          description: "Basic tool for gameplay",
-          price: {
-            amount: 9.99,
-            unit: "$",
-          },
-        },
-      ],
-      awards: [
-        {
-          id: "1",
-          name: "Bronze Medal",
-        },
-      ],
-    };
-    const response = await task.onTaskEvent(taskId, params);
-    console.log("Task Event Response:", response);
-  });
-}
-
-// OPTIONAL. Emit a player level upgrade event to the server
+// Emit a player upgrade event to the server.
+//
+// params: Required. object.
+// params.levelId: Required. string or number. The levelId is a unique identifier for the level.
+// params.name: Optional. string. The name of the level.
 const levelUpgradeButton = document.getElementById("level-upgrade");
 if (levelUpgradeButton) {
   levelUpgradeButton.addEventListener("click", async () => {
     const levelId = "2";
     const name = "Level 2 Unlocked";
-    const response = await task.onLevelUpgrade(levelId, name);
+    const response = await task.onLevelUpgrade({ levelId, name });
     console.log("Level Upgrade Response:", response);
   });
 }

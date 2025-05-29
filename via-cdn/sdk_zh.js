@@ -1,5 +1,5 @@
 const jolibox = new JoliboxSDK();
-const { ads, runtime, storage, task } = jolibox;
+const { ads, runtime, task } = jolibox;
 
 /**
  * ==================== 运行时API ====================
@@ -79,115 +79,68 @@ if (adInterstitial) {
 }
 
 /**
- * ==================== 云端存储API ====================
- * 下列API推荐接入
+ * ==================== Task API ====================
+ *
+ * Task API 都是可选接入的，我们强烈建议你接入。
+ * Task API 旨在帮助我们跟踪玩家在游戏中的进度，以便我们可以为您提供更好的回报。
  */
 
-const setItemButton = document.getElementById("set-item");
-if (setItemButton) {
-  setItemButton.addEventListener("click", async () => {
-    // 在需要存储数据的地方
-    const result = await storage.setItem("score", 100);
-    // 如果云端存储成功，result.code将返回"SUCCESS"，如果失败，将返回其他错误码。无论成功或失败，都会存储到本地IndexedDB中
-    console.log(result);
-  });
-}
-
-const getItemButton = document.getElementById("get-item");
-if (getItemButton) {
-  getItemButton.addEventListener("click", async () => {
-    // 在需要获取数据的地方
-    const result = await storage.getItem("score");
-    // 如果云端获取数据成功，result.code将返回"SUCCESS"，如果失败，将返回其他错误码，并且获取方式将会fallback到本地IndexedDB
-    console.log(result);
-  });
-}
-
-const removeItemButton = document.getElementById("remove-item");
-if (removeItemButton) {
-  removeItemButton.addEventListener("click", async () => {
-    // 在需要删除数据的地方
-    const result = await storage.removeItem("score");
-    // 如果云端删除成功，result.code将返回"SUCCESS"，如果失败，将返回其他错误码。无论成功或失败，都会删除本地IndexedDB中的数据
-    console.log(result);
-  });
-}
-
-const clearButton = document.getElementById("clear");
-if (clearButton) {
-  clearButton.addEventListener("click", async () => {
-    // 在需要清空数据的地方
-    const result = await storage.clear();
-    // 如果云端清空成功，result.code将返回"SUCCESS"，如果失败，将返回其他错误码。无论成功或失败，都会清空本地IndexedDB中的数据
-    console.log(result);
-  });
-}
-
-/**
- * ==================== 任务API ====================
- * 下列API为可选接入
- */
-
-// 关卡完成事件
+// 向服务器发送关卡/阶段完成事件。例如：用户通过关卡或阶段
+//
+// 参数：必选。object。
+// 参数 levelId: 必选。string 或 number。levelId 是关卡的唯一标识符。
+// 参数 duration: 可选。number。用户在关卡中的持续时间，以毫秒为单位。
+// 参数 rating: 可选。number。关卡的评分或者评级，例如3星级。
+// 参数 score: 可选。number。关卡的分数。
 const levelFinishedButton = document.getElementById("level-finished");
 if (levelFinishedButton) {
   levelFinishedButton.addEventListener("click", async () => {
-    const levelId = "1";
-    const result = true;
-    const duration = 3000; // 模拟耗时3秒
-    const response = await task.onLevelFinished(levelId, result, duration);
+    const levelId = 1; // simulate level 1
+    const score = 100; // simulate 100 score
+    const duration = 3000; // simulate 3 seconds
+    const rating = 5; // simulate 5 stars rating
+    const response = await task.onLevelFinished({
+      levelId,
+      duration,
+      rating,
+      score,
+    });
     console.log("Level Finished Response:", response);
   });
 }
 
-// 任务完成事件
-const taskFinishedButton = document.getElementById("task-finished");
-if (taskFinishedButton) {
-  taskFinishedButton.addEventListener("click", async () => {
-    const taskId = "main-task-1";
-    const duration = 2500; // 模拟耗时2.5秒
-    const response = await task.onTaskFinished(taskId, duration);
-    console.log("Task Finished Response:", response);
+// 向服务器发送游戏播放结束事件。例如：用户胜利/死亡或游戏结束
+//
+// 参数：必选。object。
+// 参数 score: 必选。number。游戏的分数。
+// 参数 duration: 可选。number。游戏的持续时间，以毫秒为单位。
+// 参数 rating: 可选。number。游戏的评分或评级，例如3星级。
+const gamePlayEndedButton = document.getElementById("game-play-ended");
+if (gamePlayEndedButton) {
+  gamePlayEndedButton.addEventListener("click", async () => {
+    const score = 100;
+    const duration = 3000; // simulate 3 seconds
+    const rating = 5;
+    const response = await task.onGamePlayEnded({
+      score,
+      duration,
+      rating,
+    });
+    console.log("Game Ended Response:", response);
   });
 }
 
-// 任务事件
-const taskEventButton = document.getElementById("task-event");
-if (taskEventButton) {
-  taskEventButton.addEventListener("click", async () => {
-    const taskId = "main-task-1";
-    const params = {
-      tools: [
-        {
-          id: "1",
-          name: "Tool A",
-          count: 5,
-          description: "Basic tool for gameplay",
-          price: {
-            amount: 9.99,
-            unit: "$",
-          },
-        },
-      ],
-      awards: [
-        {
-          id: "1",
-          name: "Bronze Medal",
-        },
-      ],
-    };
-    const response = await task.onTaskEvent(taskId, params);
-    console.log("Task Event Response:", response);
-  });
-}
-
-// 等级升级事件
+// 向服务器发送玩家升级事件。
+//
+// 参数：必选。object。
+// 参数 levelId: 必选。string 或 number。levelId 是关卡的唯一标识符。
+// 参数 name: 可选。string。关卡的名称。
 const levelUpgradeButton = document.getElementById("level-upgrade");
 if (levelUpgradeButton) {
   levelUpgradeButton.addEventListener("click", async () => {
     const levelId = "2";
     const name = "Level 2 Unlocked";
-    const response = await task.onLevelUpgrade(levelId, name);
+    const response = await task.onLevelUpgrade({ levelId, name });
     console.log("Level Upgrade Response:", response);
   });
 }
