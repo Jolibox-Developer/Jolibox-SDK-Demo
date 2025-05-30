@@ -26,7 +26,3 @@ npx serve .
 ## API Documentation
 
 - [Jolibox JS SDK](https://sdk-docs.jolibox.com/)
-
-## Testing related
-
-- [Test Cloud Storage API](./docs/test-storage.md)

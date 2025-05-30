@@ -25,7 +25,3 @@ npx serve .
 
 - [Jolibox JS SDK](https://sdk-docs.jolibox.com/)
 - [Jolibox JS SDK (中文)](https://sdk-docs.jolibox.com/zh_cn/)
-
-## 测试相关
-
-- [Test Cloud Storage API](./docs/test-storage_zh.md)
