@@ -83,9 +83,16 @@ if (adInterstitial) {
  *
  * These APIs are optional to integrate but we STRONGLY recommend you to integrate them.
  * The task API is designed to help us track the player's progress in your game so that we can provide you with better rewards.
+ * 
+ * There are 3 APIs:
+ * 1. onLevelFinished - Send a level/checkpoint finished event to the server.
+ * 2. onGamePlayEnded - Send a game play ended event to the server.
+ * 3. onLevelUpgrade - Send a player upgrade event to the server.
+ * 
+ * For method 1 and 2, you can just choose one of them to integrate.
  */
 
-// Emit a level/checkpoint finished event to the server. Eg: user passes a level or a stage
+// Emit a level/checkpoint finished event to the server. Eg: user passes a level or a stage, like Candy Crush
 //
 // params: Required. object.
 // params.levelId: Required. string or number. The levelId is a unique identifier for the level.
@@ -109,7 +116,7 @@ if (levelFinishedButton) {
   });
 }
 
-// Emit a game play ended event to the server. Eg: user win/die or game over
+// Emit a game play ended event to the server. Eg: user win/die or game over, like Teris
 //
 // params: Required. object.
 // params.score: Required. number. The score of the game.
