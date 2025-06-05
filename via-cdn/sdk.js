@@ -116,7 +116,7 @@ if (levelFinishedButton) {
   });
 }
 
-// Emit a game play ended event to the server. Eg: user win/die or game over, like Teris
+// Emit a game play ended event to the server. Eg: user win/die or game over, like Tetris
 //
 // params: Required. object.
 // params.score: Required. number. The score of the game.
