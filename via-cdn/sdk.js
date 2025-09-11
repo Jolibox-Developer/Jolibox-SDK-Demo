@@ -140,13 +140,13 @@ if (gamePlayEndedButton) {
 // Emit a player upgrade event to the server.
 //
 // params: Required. object.
-// params.levelId: Required. string or number. The levelId is a unique identifier for the level.
-// params.name: Optional. string. The name of the level.
+// params.levelId: Required. string or number. The levelId is a unique identifier for the player level.
+// params.name: Optional. string. The name of the player level.
 const levelUpgradeButton = document.getElementById("level-upgrade");
 if (levelUpgradeButton) {
   levelUpgradeButton.addEventListener("click", async () => {
     const levelId = "2";
-    const name = "Level 2 Unlocked";
+    const name = "Level 2 - Silver";
     const response = await task.onLevelUpgrade({ levelId, name });
     console.log("Level Upgrade Response:", response);
   });

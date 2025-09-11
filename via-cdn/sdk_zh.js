@@ -140,13 +140,13 @@ if (gamePlayEndedButton) {
 // 向服务器发送玩家升级事件。
 //
 // 参数：必选。object。
-// 参数 levelId: 必选。string 或 number。levelId 是关卡的唯一标识符。
-// 参数 name: 可选。string。关卡的名称。
+// 参数 levelId: 必选。string 或 number。levelId 是等级的唯一标识符。
+// 参数 name: 可选。string。等级的名称。
 const levelUpgradeButton = document.getElementById("level-upgrade");
 if (levelUpgradeButton) {
   levelUpgradeButton.addEventListener("click", async () => {
     const levelId = "2";
-    const name = "Level 2 Unlocked";
+    const name = "Level 2 - Silver";
     const response = await task.onLevelUpgrade({ levelId, name });
     console.log("Level Upgrade Response:", response);
   });
