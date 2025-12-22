@@ -86,21 +86,23 @@ const { ads, runtime, task } = jolibox;
    });
 ```
 
-- `重要的打点`
+## 重要的打点事件
+
 1）游戏加载完loadFinished打点说明
  
  A.当游戏没有首页进度条的时候，请直接调用 
  ```js
  runtime.loadFinished();
  ```
- B.当游戏有首页加载进度条的时候，请同步使用进度条进度
+ B.当游戏有首页加载进度条的时候：
+ - 同步使用进度条进度
  ```js
  runtime.notifyLoadProgress(30);
  runtime.notifyLoadProgress(60);
  ....
  runtime.notifyLoadProgress(90);
  ```
- 在进度条`加载完毕`之后调用  
+ - 在进度条`加载完毕`之后调用
  ```js
  runtime.loadFinished();
  ```
