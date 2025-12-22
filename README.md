@@ -102,16 +102,19 @@ ads.adBreak && ads.adBreak({
      
    - B. If the game has a home screen loading progress bar:
      - Sync with the progress
-      ```js
-      runtime.notifyLoadProgress(30);
-      runtime.notifyLoadProgress(60);
-      // ...
-      runtime.notifyLoadProgress(90);
-      ```
+       
+       ```js
+       runtime.notifyLoadProgress(30);
+       runtime.notifyLoadProgress(60);
+       // ...
+       runtime.notifyLoadProgress(90);
+       ```
+     
      - After the progress completes, call:
-      ```js
-      runtime.loadFinished();
-      ```
+       
+       ```js
+       runtime.loadFinished();
+       ```
 
 2. First interaction screen event
 ```js
