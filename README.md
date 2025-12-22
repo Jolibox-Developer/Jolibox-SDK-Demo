@@ -93,8 +93,7 @@ ads.adBreak && ads.adBreak({
 
 ## Important Tracking Events
 
-1) loadFinished event
-
+1. loadFinished event
  A. If the game does not have a home screen progress bar, call:
  ```js
  runtime.loadFinished();
@@ -113,12 +112,12 @@ ads.adBreak && ads.adBreak({
   runtime.loadFinished();
   ```
 
-2) First interaction screen event
+2. First interaction screen event
 ```js
 
 ```
 
-3) onLevelFinished event
+3. onLevelFinished event
 
 ```js
 // The user passes a level or stage, similar to Candy Crush
@@ -136,7 +135,7 @@ const response = await task.onLevelFinished({
 });
 ```
 
-4) onGamePlayEnded event
+4. onGamePlayEnded event
 
 ```js
 // The user wins/dies or the game ends, similar to WeChat Jump Jump
@@ -153,7 +152,7 @@ const response = await task.onGamePlayEnded({
 });
 ```
 
-5) onLevelUpgrade event
+5. onLevelUpgrade event
 
 ```js
 // Level or player rank upgrade
