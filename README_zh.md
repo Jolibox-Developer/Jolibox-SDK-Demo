@@ -86,7 +86,7 @@ const { ads, runtime, task } = jolibox;
    });
 ```
 
-- `重要的打点`
+## 重要的打点事件
 
 1）游戏加载完loadFinished打点说明
  

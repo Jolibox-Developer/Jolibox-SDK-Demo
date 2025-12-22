@@ -95,27 +95,23 @@ ads.adBreak && ads.adBreak({
 
 1) loadFinished event
 
-- A. If the game does not have a home screen progress bar, call:
+ A. If the game does not have a home screen progress bar, call:
+ ```js
+ runtime.loadFinished();
+ ```
 
-```js
-runtime.loadFinished();
-```
-
-- B. If the game has a home screen loading progress bar:
+ B. If the game has a home screen loading progress bar:
   - Sync with the progress
-
-```js
-runtime.notifyLoadProgress(30);
-runtime.notifyLoadProgress(60);
-// ...
-runtime.notifyLoadProgress(90);
-```
-
+  ```js
+  runtime.notifyLoadProgress(30);
+  runtime.notifyLoadProgress(60);
+  // ...
+  runtime.notifyLoadProgress(90);
+  ```
   - After the progress completes, call:
-  
-```js
-runtime.loadFinished();
-```
+  ```js
+  runtime.loadFinished();
+  ```
 
 2) First interaction screen event
 ```js
