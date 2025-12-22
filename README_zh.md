@@ -30,14 +30,15 @@ npx serve .
 
 - `Sdk初始化`
 ```js
- window.jolibox = new JoliboxSDK();
+const jolibox = new JoliboxSDK();
+const { ads, runtime, task } = jolibox;
 ```
  
 - `广告初始化`
 ```js
- window.jolibox.ads.init();
+ ads.init();
  // 在需要预加载广告的地方（例如在游戏加载屏幕中）
- window.jolibox.ads.adConfig({
+ ads.adConfig({
     preloadAdBreaks: "on",
     sound: "off",
     onReady: () => {
@@ -48,7 +49,7 @@ npx serve .
 
 - `插屏广告`
 ```js
- window.jolibox.ads.adBreak && ads.adBreak({
+ ads.adBreak && ads.adBreak({
     type: "start",
     adBreakDone: () => {
        //返回成功
@@ -58,7 +59,7 @@ npx serve .
 
 - `激励视频广告`
 ```js
- window.jolibox.ads.adBreak && window.jolibox.ads.adBreak({
+ ads.adBreak && ads.adBreak({
     type: "reward",
     beforeReward(showAdFn) {
         // 处理广告播放前的逻辑，例如暂停游戏
@@ -90,11 +91,11 @@ npx serve .
 
  A.当游戏没有首页进度条的时候，请直接调用 
  ```js
- window.jolibox.runtime.loadFinished();
+ runtime.loadFinished();
  ```
- B.当游戏有首页加载进度条的时候，请在进度条加载完毕之后调用  
+ B.当游戏有首页加载进度条的时候，请在进度条`加载完毕`之后调用  
  ```js
- window.jolibox.runtime.loadFinished();
+ runtime.loadFinished();
  ```
  
 2）首次交互屏打点说明 
@@ -110,7 +111,7 @@ npx serve .
   // 参数 score: 可选。number。关卡的分数。
   const levelId = this.levelId;
   const score = this.score;
-  const response = await window.jolibox.task.onLevelFinished({
+  const response = await task.onLevelFinished({
        levelId,
        duration,
        rating,
@@ -127,7 +128,7 @@ npx serve .
  const score = 100;
  const duration = 3000; // simulate 3 seconds
  const rating = 5;
- const response = await window.jolibox.task.onGamePlayEnded({
+ const response = await task.onGamePlayEnded({
       score,
       duration,
       rating,
@@ -141,7 +142,7 @@ npx serve .
  // 参数 name: 可选。string。等级的名称。
  const levelId = "2";
  const name = "Level 2 - Silver";
- const response = await window.jolibox.task.onLevelUpgrade({
+ const response = await task.onLevelUpgrade({
       levelId,
       name,
  });

@@ -32,15 +32,16 @@ npx serve .
 - SDK initialization
 
 ```js
-window.jolibox = new JoliboxSDK();
+const jolibox = new JoliboxSDK();
+const { ads, runtime, task } = jolibox;
 ```
 
 - Ads initialization
 
 ```js
-window.jolibox.ads.init();
+ads.init();
 // At places where you need to preload ads (e.g., on the game loading screen)
-window.jolibox.ads.adConfig({
+ads.adConfig({
   preloadAdBreaks: "on",
   sound: "off",
   onReady: () => {
@@ -52,7 +53,7 @@ window.jolibox.ads.adConfig({
 - Interstitial ads
 
 ```js
-window.jolibox.ads.adBreak && ads.adBreak({
+ads.adBreak && ads.adBreak({
   type: "start",
   adBreakDone: () => {
     // success callback
@@ -63,7 +64,7 @@ window.jolibox.ads.adBreak && ads.adBreak({
 - Rewarded video ads
 
 ```js
-window.jolibox.ads.adBreak && window.jolibox.ads.adBreak({
+ads.adBreak && ads.adBreak({
   type: "reward",
   beforeReward(showAdFn) {
     // Logic before playing the ad, e.g., pause the game
@@ -97,16 +98,19 @@ window.jolibox.ads.adBreak && window.jolibox.ads.adBreak({
 - A. If the game does not have a home screen progress bar, call:
 
 ```js
-window.jolibox.runtime.loadFinished();
+runtime.loadFinished();
 ```
 
 - B. If the game has a home screen loading progress bar, call `loadFinished` after the progress completes:
 
 ```js
-window.jolibox.runtime.loadFinished();
+runtime.loadFinished();
 ```
 
 2) First interaction screen event
+```js
+
+```
 
 3) onLevelFinished event
 
@@ -118,7 +122,7 @@ window.jolibox.runtime.loadFinished();
 // score: optional. number. The score of the level.
 const levelId = this.levelId;
 const score = this.score;
-const response = await window.jolibox.task.onLevelFinished({
+const response = await task.onLevelFinished({
   levelId,
   duration,
   rating,
@@ -136,7 +140,7 @@ const response = await window.jolibox.task.onLevelFinished({
 const score = 100;
 const duration = 3000; // simulate 3 seconds
 const rating = 5;
-const response = await window.jolibox.task.onGamePlayEnded({
+const response = await task.onGamePlayEnded({
   score,
   duration,
   rating,
@@ -151,7 +155,7 @@ const response = await window.jolibox.task.onGamePlayEnded({
 // name: optional. string. The name of the level/rank.
 const levelId = "2";
 const name = "Level 2 - Silver";
-const response = await window.jolibox.task.onLevelUpgrade({
+const response = await task.onLevelUpgrade({
   levelId,
   name,
 });
