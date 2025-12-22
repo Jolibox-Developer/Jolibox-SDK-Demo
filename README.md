@@ -101,7 +101,8 @@ ads.adBreak && ads.adBreak({
 runtime.loadFinished();
 ```
 
-- B. If the game has a home screen loading progress bar, sync with the progress:
+- B. If the game has a home screen loading progress bar:
+  - Sync with the progress
 
 ```js
 runtime.notifyLoadProgress(30);
@@ -110,8 +111,8 @@ runtime.notifyLoadProgress(60);
 runtime.notifyLoadProgress(90);
 ```
 
-After the progress completes, call:
-
+  - After the progress completes, call:
+  
 ```js
 runtime.loadFinished();
 ```
