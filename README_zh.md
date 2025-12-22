@@ -25,3 +25,133 @@ npx serve .
 
 - [Jolibox JS SDK](https://sdk-docs.jolibox.com/)
 - [Jolibox JS SDK (中文)](https://sdk-docs.jolibox.com/zh_cn/)
+
+## 快速DEMO使用 
+
+- `Sdk初始化`
+```js
+const jolibox = new JoliboxSDK();
+const { ads, runtime, task } = jolibox;
+```
+ 
+- `广告初始化`
+```js
+ ads.init();
+ // 在需要预加载广告的地方（例如在游戏加载屏幕中）
+ ads.adConfig({
+    preloadAdBreaks: "on",
+    sound: "off",
+    onReady: () => {
+       console.log("广告初始化 onReady");
+    },
+ });
+```
+
+- `插屏广告`
+```js
+ ads.adBreak && ads.adBreak({
+    type: "start",
+    adBreakDone: () => {
+       //返回成功
+    },
+ });
+```
+
+- `激励视频广告`
+```js
+ ads.adBreak && ads.adBreak({
+    type: "reward",
+    beforeReward(showAdFn) {
+        // 处理广告播放前的逻辑，例如暂停游戏
+        console.log("beforeReward"); 
+        showAdFn();     
+    },
+    adDismissed: () => {
+        // 被告知广告已被用户关闭，并且没有达到奖励条件
+        console.log("adDismissed");
+        //失败处理       
+    },
+    adViewed: () => {
+        // 被告知广告已被用户观看，并且达到奖励条件
+        console.log("adViewed");
+        //成功处理
+    },
+    adBreakDone: (placementInfo) => {
+         // 处理剩余逻辑，是否发放奖励，并恢复游戏状态
+         console.log("adBreakDone", placementInfo);
+         if (placementInfo.breakStatus !== "viewed") {
+            //失败处理
+         }
+     },
+   });
+```
+
+- `重要的打点`
+1）游戏加载完loadFinished打点说明
+ 
+ A.当游戏没有首页进度条的时候，请直接调用 
+ ```js
+ runtime.loadFinished();
+ ```
+ B.当游戏有首页加载进度条的时候，请同步使用进度条进度
+ ```js
+ runtime.notifyLoadProgress(30);
+ runtime.notifyLoadProgress(60);
+ ....
+ runtime.notifyLoadProgress(90);
+ ```
+ 在进度条`加载完毕`之后调用  
+ ```js
+ runtime.loadFinished();
+ ```
+ 
+2）首次交互屏打点说明 
+ ```js
+
+ ```
+3）通过关卡或阶段打点onLevelFinished说明
+ ```js
+  // 用户通过关卡或阶段，类似Candy Crush
+  // 参数 levelId: 必选。string 或 number。levelId 是关卡的唯一标识符。
+  // 参数 duration: 可选。number。用户在关卡中的持续时间，以毫秒为单位。
+  // 参数 rating: 可选。number。关卡的评分或者评级，例如3星级。
+  // 参数 score: 可选。number。关卡的分数。
+  const levelId = this.levelId;
+  const score = this.score;
+  const response = await task.onLevelFinished({
+       levelId,
+       duration,
+       rating,
+       score
+  });
+  ```
+
+4）结束游戏打点onGamePlayEnded说明
+ ```js
+ // 用户胜利/死亡或游戏结束，类似微信跳一跳
+ // 参数 score: 必选。number。游戏的分数。
+ // 参数 duration: 可选。number。游戏的持续时间，以毫秒为单位。
+ // 参数 rating: 可选。number。游戏的评分或评级，例如3星级。
+ const score = 100;
+ const duration = 3000; // simulate 3 seconds
+ const rating = 5;
+ const response = await task.onGamePlayEnded({
+      score,
+      duration,
+      rating,
+ });
+ ```
+    
+5）关卡或者玩家等级升级onLevelUpgrade说明
+ ```js
+ // 关卡或者玩家等级升级
+ // 参数 levelId: 必选。string 或 number。levelId 是等级的唯一标识符。
+ // 参数 name: 可选。string。等级的名称。
+ const levelId = "2";
+ const name = "Level 2 - Silver";
+ const response = await task.onLevelUpgrade({
+      levelId,
+      name,
+ });
+```
+
