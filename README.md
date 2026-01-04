@@ -169,3 +169,7 @@ const response = await task.onLevelUpgrade({
   name,
 });
 ```
+
+## FAQ / Common Issues
+
+- iOS audio resume after app switch: See [iOS Audio Resume Playback on App Switch](./ios-audio-resume-playback-on-app-switch.md).
