@@ -45,7 +45,7 @@ await task.onLevelFinished({
 
 适用于单局循环、无明确关卡结构的玩法（如跳一跳、跑酷、无尽模式）。无论输赢，只要结算面板弹出即触发。
 
-![Game Play Ended](playend.jpeg)
+![Game Play Ended](playend.png)
 
 #### 字段映射说明
 
