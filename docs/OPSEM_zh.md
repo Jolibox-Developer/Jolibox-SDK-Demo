@@ -12,7 +12,7 @@
 
 | 正确示范 (Good) | 错误示范 (Bad) |
 | :---: | :---: |
-| ![Correct](good.png) | ![Wrong](bad.png) |
+| <img src="good.png" width="300" /> | <img src="bad.png" width="300" /> |
 | **Level 1** (关卡) / **74,175** (分数) | **金币 30** (消费资产) |
 
 ## 2. 事件定义与采集标准
@@ -21,7 +21,7 @@
 
 适用于具备明确关卡划分的游戏（如三消、闯关、剧情）。仅在**通关/成功**时触发，失败不触发。
 
-![Level Finished](levelfinished.png)
+<img src="levelfinished.png" width="300" />
 
 #### 字段映射说明
 
@@ -45,7 +45,7 @@ await task.onLevelFinished({
 
 适用于单局循环、无明确关卡结构的玩法（如跳一跳、跑酷、无尽模式）。无论输赢，只要结算面板弹出即触发。
 
-![Game Play Ended](playend.png)
+<img src="playend.png" width="300" />
 
 #### 字段映射说明
 
@@ -63,11 +63,11 @@ await task.onGamePlayEnded({
 });
 ```
 
-### 2.3 onLevelUpgrade (等级,关卡等提升)
+### 2.3 onLevelUpgrade (等级提升)
 
 适用于长线成长内容（如 RPG 等级、主城升级、段位晋升），或**没有明确关卡但有核心单位等级**的游戏（如合成类游戏的最高猫咪等级）。
 
-![Level Upgrade](levelup.png)
+<img src="levelup.png" width="300" />
 
 #### 采集规则
 
