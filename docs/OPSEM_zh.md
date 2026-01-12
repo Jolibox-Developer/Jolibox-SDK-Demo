@@ -34,7 +34,7 @@
 ```javascript
 // 比如刚过了第 1 关
 await task.onLevelFinished({
-    levelId: "1",     // 必传：当前通过的关卡号
+    levelId: 1,     // 必传：当前通过的关卡号
 });
 ```
 
@@ -50,8 +50,8 @@ await task.onLevelFinished({
 ```javascript
 // 比如这局跑完结算了
 await task.onLevelFinished({
-    levelId: "2",      // 当前所在的关卡/层数
-    score: 20,         // 本局拿到的核心分数（比如金钱/米数）
+    levelId: 1,      // 当前所在的关卡/层数
+    score: 63600,         // 本局拿到的核心分数（比如金钱/米数）
     rating: 3,         // 可选：拿了几颗星
     duration: 120000   // 本局坚持了多久(毫秒)
 });
@@ -97,7 +97,7 @@ await task.onGamePlayEnded({
 ```javascript
 // 当玩家解锁了 Level 3 的猫咪时
 await task.onLevelUpgrade({
-    levelId: "3",           // 新解锁的最高等级
+    levelId: 3,           // 新解锁的最高等级
     name: "Neozzarth"       // 等级名称/角色名(可选)
 });
 ```
