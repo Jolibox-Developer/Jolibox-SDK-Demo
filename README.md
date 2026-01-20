@@ -115,10 +115,22 @@ B. If the game has a home screen loading progress bar:
 
 2\)&nbsp;&nbsp;First interaction screen event
 ```js
-
+  runtime.gameTTI();
 ```
 
-3\)&nbsp;&nbsp;onLevelFinished event
+3\)&nbsp;&nbsp;onLevelStart event
+
+```js
+// The user starts a level or stage
+// levelId: required. string or number. A unique identifier for the level.
+const levelId = this.levelId;
+const response = await task.onLevelStart({
+  levelId
+});
+```
+
+
+4\)&nbsp;&nbsp;onLevelFinished event
 
 ```js
 // The user passes a level or stage, similar to Candy Crush
@@ -136,7 +148,25 @@ const response = await task.onLevelFinished({
 });
 ```
 
-4\)&nbsp;&nbsp;onGamePlayEnded event
+5\)&nbsp;&nbsp;onLevelFailed event
+
+```js
+// The user fails a level or stage
+// levelId: required. string or number. A unique identifier for the level.
+// duration: optional. number. Time spent in the level in milliseconds.
+// rating: optional. number. The rating of the level, e.g., 3 stars.
+// score: optional. number. The score of the level.
+const levelId = this.levelId;
+const score = this.score;
+const response = await task.onLevelFailed({
+  levelId,
+  duration,
+  rating,
+  score,
+});
+```
+
+6\)&nbsp;&nbsp;onGamePlayEnded event
 
 ```js
 // The user wins/dies or the game ends, similar to WeChat Jump Jump
@@ -153,7 +183,7 @@ const response = await task.onGamePlayEnded({
 });
 ```
 
-5\)&nbsp;&nbsp;onLevelUpgrade event
+7\)&nbsp;&nbsp;onLevelUpgrade event
 
 ```js
 // Level or player rank upgrade

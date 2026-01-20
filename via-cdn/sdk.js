@@ -15,6 +15,12 @@ runtime.notifyLoadProgress(90);
 runtime.loadFinished();
 
 /**
+ * ==================== First Interaction Screen API ====================
+ */
+// OPTIONAL. When the player first reaches an interactive screen, call gameTTI to mark the Time To Interactive.
+runtime.gameTTI();
+
+/**
  * ==================== Ads API ====================
  */
 
@@ -84,13 +90,30 @@ if (adInterstitial) {
  * These APIs are optional to integrate but we STRONGLY recommend you to integrate them.
  * The task API is designed to help us track the player's progress in your game so that we can provide you with better rewards.
  * 
- * There are 3 APIs:
- * 1. onLevelFinished - Send a level/checkpoint finished event to the server.
- * 2. onGamePlayEnded - Send a game play ended event to the server.
- * 3. onLevelUpgrade - Send a player upgrade event to the server.
+ * There are 5 APIs:
+ * 1. onLevelStart - Send a level/checkpoint started event to the server.
+ * 2. onLevelFinished - Send a level/checkpoint finished event to the server.
+ * 3. onLevelFailed - Send a level/stage failed event to the server.
+ * 4. onGamePlayEnded - Send a game play ended event to the server.
+ * 5. onLevelUpgrade - Send a player upgrade event to the server.
  * 
- * For method 1 and 2, you can just choose one of them to integrate.
+ * For progress reporting, you can choose either onLevelFinished or onGamePlayEnded.
  */
+
+// Emit a level/checkpoint started event to the server. Eg: user starts a level or a stage
+//
+// params: Required. object.
+// params.levelId: Required. string or number. The levelId is a unique identifier for the level.
+const levelStartButton = document.getElementById("level-started");
+if (levelStartButton) {
+  levelStartButton.addEventListener("click", async () => {
+    const levelId = 1; // simulate level 1
+    const response = await task.onLevelStart({
+      levelId,
+    });
+    console.log("Level Start Response:", response);
+  });
+}
 
 // Emit a level/checkpoint finished event to the server. Eg: user passes a level or a stage, like Candy Crush
 //
@@ -113,6 +136,30 @@ if (levelFinishedButton) {
       score,
     });
     console.log("Level Finished Response:", response);
+  });
+}
+
+// Emit a level/stage failed event to the server. Eg: user fails a level or a stage
+//
+// params: Required. object.
+// params.levelId: Required. string or number. The levelId is a unique identifier for the level.
+// params.duration: Optional. number. The duration of the level in milliseconds.
+// params.rating: Optional. number. The rating of the level.
+// params.score: Optional. number. The score of the level.
+const levelFailedButton = document.getElementById("level-failed");
+if (levelFailedButton) {
+  levelFailedButton.addEventListener("click", async () => {
+    const levelId = 1; // simulate level 1
+    const score = 100; // simulate 100 score
+    const duration = 3000; // simulate 3 seconds
+    const rating = 5; // simulate 5 stars rating
+    const response = await task.onLevelFailed({
+      levelId,
+      duration,
+      rating,
+      score,
+    });
+    console.log("Level Failed Response:", response);
   });
 }
 

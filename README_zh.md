@@ -109,9 +109,20 @@ const { ads, runtime, task } = jolibox;
  
 2）首次交互屏打点说明 
  ```js
-
+ runtime.gameTTI();
  ```
-3）通过关卡或阶段打点onLevelFinished说明
+
+3）通过关卡或阶段打点onLevelStart说明
+ ```js
+  // 用户开始关卡或阶段
+  // 参数 levelId: 必选。string 或 number。levelId 是关卡的唯一标识符。
+  const levelId = this.levelId;
+  const response = await task.onLevelStart({
+       levelId
+  }); 
+ ```
+
+4）通过关卡或阶段打点onLevelFinished说明
  ```js
   // 用户通过关卡或阶段，类似Candy Crush
   // 参数 levelId: 必选。string 或 number。levelId 是关卡的唯一标识符。
@@ -125,10 +136,27 @@ const { ads, runtime, task } = jolibox;
        duration,
        rating,
        score
-  });
-  ```
+  }); 
+ ```
 
-4）结束游戏打点onGamePlayEnded说明
+5）关卡/阶段失败打点 onLevelFailed 说明
+ ```js
+  // 用户在关卡/阶段挑战失败
+  // 参数 levelId: 必选。string 或 number。levelId 是关卡的唯一标识符。
+  // 参数 duration: 可选。number。用户在关卡中的持续时间，以毫秒为单位。
+  // 参数 rating: 可选。number。关卡的评分或者评级，例如3星级。
+  // 参数 score: 可选。number。关卡的分数。
+  const levelId = this.levelId;
+  const score = this.score;
+  const response = await task.onLevelFailed({
+       levelId,
+       duration,
+       rating,
+       score
+  });
+ ```
+
+6）结束游戏打点onGamePlayEnded说明
  ```js
  // 用户胜利/死亡或游戏结束，类似微信跳一跳
  // 参数 score: 必选。number。游戏的分数。
@@ -144,7 +172,7 @@ const { ads, runtime, task } = jolibox;
  });
  ```
     
-5）关卡或者玩家等级升级onLevelUpgrade说明
+7）关卡或者玩家等级升级onLevelUpgrade说明
  ```js
  // 关卡或者玩家等级升级
  // 参数 levelId: 必选。string 或 number。levelId 是等级的唯一标识符。
@@ -155,7 +183,7 @@ const { ads, runtime, task } = jolibox;
       levelId,
       name,
  });
-```
+ ```
 
 ## 常见问题汇总
 

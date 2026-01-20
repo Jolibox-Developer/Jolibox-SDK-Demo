@@ -15,6 +15,13 @@ runtime.notifyLoadProgress(90);
 runtime.loadFinished();
 
 /**
+ * ==================== 首次进入用户交互屏 API ====================
+ */
+//首次进入用户交互屏
+runtime.gameTTI();
+
+
+/**
  * ==================== 广告API ====================
  */
 
@@ -92,6 +99,22 @@ if (adInterstitial) {
  * 1 和 2 方法只需要选一种接入即可
  */
 
+
+// 向服务器发送关卡/阶段开始事件。例如：用户关卡或阶段开始
+//
+// 参数：必选。object。
+// 参数 levelId: 必选。string 或 number。levelId 是关卡的唯一标识符。
+const levelStartButton = document.getElementById("level-started");
+if (levelStartButton) {
+  levelStartButton.addEventListener("click", async () => {
+    const levelId = 1; // simulate level 1
+    const response = await task.onLevelStart({
+      levelId
+    });
+    console.log("Level Start Response:", response);
+  });
+}
+
 // 向服务器发送关卡/阶段完成事件。例如：用户通过关卡或阶段，类似Candy Crush
 //
 // 参数：必选。object。
@@ -113,6 +136,30 @@ if (levelFinishedButton) {
       score,
     });
     console.log("Level Finished Response:", response);
+  });
+}
+
+// 向服务器发送关卡/阶段挑战失败事件。例如：用户关卡/阶段挑战失败
+//
+// 参数：必选。object。
+// 参数 levelId: 必选。string 或 number。levelId 是关卡的唯一标识符。
+// 参数 duration: 可选。number。用户在关卡中的持续时间，以毫秒为单位。
+// 参数 rating: 可选。number。关卡的评分或者评级，例如3星级。
+// 参数 score: 可选。number。关卡的分数。
+const levelFailedButton = document.getElementById("level-failed");
+if (levelFailedButton) {
+  levelFailedButton.addEventListener("click", async () => {
+    const levelId = 1; // simulate level 1
+    const score = 100; // simulate 100 score
+    const duration = 3000; // simulate 3 seconds
+    const rating = 5; // simulate 5 stars rating
+    const response = await task.onLevelFailed({
+      levelId,
+      duration,
+      rating,
+      score,
+    });
+    console.log("Level Failed Response:", response);
   });
 }
 
