@@ -15,9 +15,69 @@
 | <img src="good.png" width="400" /> | <img src="bad.png" width="400" /> |
 | **Level 1** (关卡) / **74,175** (分数) | **金币 30** (消费资产) |
 
-## 2. 事件定义与采集标准
+## 2. 应用交互事件定义与采集标准
 
-### 2.1 onLevelFinished (关卡完成)
+### 2.1 loadFinished (游戏加载完成)
+
+这个事件用于 “游戏资源已经准备好了”。请根据游戏是否有**首页加载进度条**来选择调用时机：
+
+<img src="levelfinished.png" width="300" />
+
+#### 情况一：没有首页进度条
+
+如果游戏启动后直接进入主界面，请在资源加载完毕后**直接调用**。
+
+```javascript
+runtime.loadFinished();
+```
+
+#### 情况二：有首页加载进度条
+
+如果游戏有 Loading 界面，请在**进度条走到 100%（加载完毕）** 之后调用。
+
+```javascript
+// 1. 加载过程中同步进度（可选）
+runtime.notifyLoadProgress(30);
+runtime.notifyLoadProgress(60);
+// ...
+
+// 2. 加载完毕后，立即调用完成信号
+runtime.loadFinished();
+```
+
+### 2.2 gameTTI (首次进入用户交互屏)
+
+这个事件用于记录游戏**首次变得可交互**的时间点（Time to Interactive）。
+
+*   **什么时候传**：当用户**第一次**看到主界面，且**可以点击**任何 UI 元素（如开始按钮、设置图标等）的时候。
+*   **注意**：只传一次，通常在游戏启动进入首页后立即调用。
+
+<img src="gameTTI.png" width="300" />
+
+```javascript
+// 主界面加载完毕，且 UI 按钮可以响应点击时
+runtime.gameTTI();
+```
+
+## 3. 游戏内事件定义与采集标准
+
+### 3.1 onLevelStart (关卡开始)
+
+适用于有关卡概念的游戏。
+
+*   **什么时候传**：当玩家点击“开始”或正式进入关卡时触发。
+*   **传什么**：当前开始的关卡号。
+
+<img src="level_start.png" width="300" />
+
+```javascript
+// 比如点击了 Level 1 的 Start 按钮
+await task.onLevelStart({ 
+    levelId: 1       // 必传：当前所在的关卡/层数 
+});
+```
+
+### 3.2 onLevelFinished (关卡完成)
 
 这个事件主要分两种情况：
 
@@ -50,14 +110,32 @@ await task.onLevelFinished({
 ```javascript
 // 比如这局跑完结算了
 await task.onLevelFinished({
-    levelId: 1,      // 当前所在的关卡/层数
-    score: 63600,         // 本局拿到的核心分数（比如金钱/米数）
+    levelId: 1,      // 必传：当前所在的关卡/层数
+    score: 63600,         //可选： 本局拿到的核心分数（比如金钱/米数）
     rating: 3,         // 可选：拿了几颗星
-    duration: 120000   // 本局坚持了多久(毫秒)
+    duration: 120000   //可选： 本局坚持了多久(毫秒)
 });
 ```
 
-### 2.2 onGamePlayEnded (单局结束)
+### 3.3 onLevelFailed (关卡失败)
+
+适用于有关卡概念的游戏。当玩家在关卡中**失败**（如步数耗尽、死亡）且决定放弃或重新开始时触发。
+
+*   **什么时候传**：关卡失败结算面板出现时。
+*   **传什么**：当前失败的关卡号，以及（可选的）当前进度或分数。
+
+<img src="levelfailed.png" width="300" />
+
+```javascript
+await task.onLevelFailed({ 
+    levelId: 1,        // 必传：当前所在的关卡/层数 
+    score: 200,        // 可选：本局拿到的核心分数（比如金钱/米数） 
+    rating: 0,         // 可选：拿了几颗星 
+    duration: 120000   // 可选：本局坚持了多久(毫秒) 
+});
+```
+
+### 3.4 onGamePlayEnded (单局结束)
 
 适用于单局循环、无明确关卡结构的玩法（如跳一跳、跑酷、无尽模式）。无论输赢，只要结算面板弹出即触发。
 
@@ -79,7 +157,7 @@ await task.onGamePlayEnded({
 });
 ```
 
-### 2.3 onLevelUpgrade (等级提升)
+### 3.5 onLevelUpgrade (等级提升)
 
 适用于长线成长内容（如 RPG 等级、主城升级、段位晋升），或**没有明确关卡但有核心单位等级**的游戏（如合成类游戏的最高猫咪等级）。
 
@@ -102,10 +180,10 @@ await task.onLevelUpgrade({
 });
 ```
 
-## 3. 常见问题 (FAQ)
+## 4. 常见问题 (FAQ)
 
 **Q: 关卡失败是否需要上报 `onLevelFinished`？**
-> 不需要。该事件仅用于记录“通过”行为。失败数据建议通过自定义事件单独统计。
+> 不需要。该事件仅用于记录“通过”行为。失败数据请上报 `onLevelFailed` 事件。
 
 **Q: 重复挑战已通关的关卡是否上报？**
 > 需要上报。凡是真实的通关行为均应记录，用于分析用户活跃度与重复挑战意愿。
