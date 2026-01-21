@@ -86,7 +86,9 @@ const { ads, runtime, task } = jolibox;
    });
 ```
 
-## 重要的打点事件
+## 重要的打点事件 
+
+更多详尽的图文说明请参考：[进度与成长数据采集规范](./docs/OPSEM_zh.md)。
 
 1）游戏加载完loadFinished打点说明
  
