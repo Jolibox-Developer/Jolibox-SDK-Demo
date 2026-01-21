@@ -189,5 +189,5 @@ const { ads, runtime, task } = jolibox;
 
 ## 常见问题汇总
 
-- iOS 声音适配解决方案：请参考 [iOS 切换应用返回后，音频无法播放问题（使用者指南）](./ios-audio-resume-playback-on-app-switch_zh.md)。
+- iOS 声音适配解决方案：请参考 [iOS 切换应用返回后，音频无法播放问题（使用者指南）](./docs/ios-audio-resume-playback-on-app-switch_zh.md)。
 
