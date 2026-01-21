@@ -21,7 +21,7 @@
 
 这个事件用于 “游戏资源已经准备好了”。请根据游戏是否有**首页加载进度条**来选择调用时机：
 
-<img src="levelfinished.png" width="300" />
+<img src="loadFinished.png" width="300" />
 
 #### 情况一：没有首页进度条
 
