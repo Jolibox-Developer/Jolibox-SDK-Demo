@@ -92,6 +92,7 @@ ads.adBreak && ads.adBreak({
 ```
 
 ## Important Tracking Events
+For a complete illustrated guide, see: [Progress and Growth Data Collection Specification](./docs/OPSEM.md).
 
 1\)&nbsp;&nbsp;loadFinished event
 
