@@ -21,7 +21,7 @@ The data collected must be **irreversible data representing user growth progress
 
 This event is used to indicate "Game resources are ready, ready to play". Please choose the timing to call this based on whether the game has a **loading progress bar on the home screen**:
 
-<img src="levelfinished.png" width="300" />
+<img src="loadFinished.png" width="300" />
 
 #### Case 1: No Home Screen Progress Bar
 
